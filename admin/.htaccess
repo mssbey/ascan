@@ -1,0 +1,6 @@
+# Prevent stale caching of Admin Studio JS/CSS on Plesk/Apache/CDN
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css)$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
+</IfModule>

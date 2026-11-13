@@ -1,0 +1,27 @@
+[
+    {
+        "id": "mon-28e18ca347",
+        "url": "https://zeynart.com/",
+        "domain": "zeynart.com",
+        "client_name": "AS CAM YAPI İNŞAAT DIŞ TİCARET LTD. ŞTİ.",
+        "server_group": "Ana Sunucu",
+        "notes": "Otomatik başlangıç izleme kaydı",
+        "enabled": true,
+        "status": "pending",
+        "http_code": 0,
+        "response_ms": 0,
+        "server_header": "",
+        "ssl_valid": null,
+        "ssl_days_left": null,
+        "ssl_expires_at": "",
+        "ssl_issuer": "",
+        "ssl_checked_ts": 0,
+        "last_checked_ts": 0,
+        "last_checked_at": "",
+        "last_error": "",
+        "uptime_pct": 100,
+        "history": [],
+        "last_alert_sent_ts": 0,
+        "created_at": "2026-11-08T01:28:29+03:00"
+    }
+]

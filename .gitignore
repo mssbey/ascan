@@ -1,0 +1,11 @@
+# Gizli / ortama özel dosyalar
+data/.csrf_secret
+data/backups/
+data/analytics/
+data/ratelimit/
+data/security_logs.json
+data/*.sqlite
+data/migrations/e2e_panel_test.php
+
+# Dağıtım paketleri
+_deploy/

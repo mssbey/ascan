@@ -1,0 +1,117 @@
+Options -Indexes
+ServerSignature Off
+DirectoryIndex index.php
+AddDefaultCharset UTF-8
+
+<IfModule LiteSpeed>
+    CacheLookup on
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS on production domains (automatically bypassed on localhost / 127.0.0.1)
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:[0-9]+)?$ [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # LiteSpeed LSCache bypass for admin, dynamic /api/*, proposals, client portals, maintenance mode, disabled LSCache, and logged-in studio sessions
+    RewriteRule ^(admin|api|teklif|sozlesme|proje-takip)(/|$) - [E=Cache-Control:no-cache]
+    RewriteCond %{HTTP_COOKIE} zeynart_sid [NC]
+    RewriteRule ^ - [E=Cache-Control:no-cache]
+    RewriteCond %{DOCUMENT_ROOT}/data/.maintenance_active -f
+    RewriteRule ^ - [E=Cache-Control:no-cache]
+    RewriteCond %{DOCUMENT_ROOT}/data/.lscache_disabled -f
+    RewriteRule ^ - [E=Cache-Control:no-cache]
+
+    # Legacy media path -> clean /uploads/ 301 Permanent Redirect (single-hop to .webp if optimized)
+    RewriteCond %{DOCUMENT_ROOT}/uploads/$1-$2.webp !-f
+    RewriteCond %{DOCUMENT_ROOT}/uploads/$1.webp -f
+    RewriteRule ^wp-content/uploads/(.+)\.(jpe?g|png)$ /uploads/$1.webp [R=301,L,NC]
+    RewriteRule ^wp-content/uploads/(.*)$ /uploads/$1 [R=301,L,NC]
+
+    # Legacy .jpg/.jpeg/.png upload URLs -> optimized .webp 301 Redirect
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{DOCUMENT_ROOT}/uploads/$1-$2.webp !-f
+    RewriteCond %{DOCUMENT_ROOT}/uploads/$1.webp -f
+    RewriteRule ^uploads/(.+)\.(jpe?g|png)$ /uploads/$1.webp [R=301,L,NC]
+
+    # Legacy date-based blog URLs -> /blog/slug/
+    RewriteRule ^[0-9]{4}/[0-9]{2}/[0-9]{2}/([^/]+)/?$ /blog/$1/ [R=301,L]
+
+    # Block direct HTTP access to internal backend & flat-file storage folders
+    RewriteRule ^(data|includes|lib|pages)/ - [F,L,NC]
+
+    # Block script or config execution inside static / user-uploaded media directories
+    RewriteRule ^(uploads|images|assets)/.*\.(php[0-9]?|phtml|phar|inc|sh|sql|env|pl|py|cgi|asp|aspx|jsp)$ - [F,L,NC]
+
+    # Block direct HTTP download of deployment archives, backups, SQL dumps, or PHP error logs left on server
+    RewriteRule (^|/)(error_log|.*\.(zip|tar|tgz|rar|7z|sql|bak|old|orig|swp))$ - [F,L,NC]
+
+    # LiteSpeed LSAPI: prevent external abort/timeout on background sync, cron & bulk studio tasks
+    RewriteRule ^(api/(analitik-nabiz|cron/)|admin/api\.php) - [E=noabort:1,E=noconntimeout:1]
+
+    # Block hidden dotfiles & dot-directories everywhere EXCEPT /.well-known/
+    RewriteRule (^|/)\.(?!well-known(/|$)) - [F,L]
+
+    # When a custom admin slug is active, intercept all direct /admin/* requests via index.php for stealth 404
+    RewriteCond %{DOCUMENT_ROOT}/data/.custom_admin_slug -f
+    RewriteCond %{REQUEST_URI} ^/admin(/|$) [NC]
+    RewriteRule ^ index.php [QSA,L]
+
+    # Allow /admin directory and real static files (assets, images, uploads, icon.png)
+    RewriteCond %{REQUEST_URI} ^/admin(/|$) [NC]
+    RewriteRule ^ - [L]
+
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Route everything else cleanly through Front Controller index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Security & Agentic Discovery CORS Headers
+<IfModule mod_headers.c>
+    Header always unset X-Powered-By
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Header always set X-Permitted-Cross-Domain-Policies "none"
+    Header always set Content-Security-Policy "frame-ancestors 'self'; object-src 'none'; base-uri 'self'"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
+    <FilesMatch "\.svg$">
+        Header set Content-Security-Policy "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox"
+    </FilesMatch>
+    <FilesMatch "^(ai-catalog|ard|mcp-server-card|agent-card)\.json$">
+        Header always set Access-Control-Allow-Origin "*"
+        Header always set Content-Type "application/json; charset=UTF-8"
+    </FilesMatch>
+</IfModule>
+
+# High-Speed Brotli & Gzip Compression for 100% PageSpeed
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css application/javascript application/json image/svg+xml application/xml
+</IfModule>
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json image/svg+xml application/xml
+</IfModule>
+
+# Immutable Static Asset Caching (1 Year)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/avif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+    <FilesMatch "\.(woff2|webp|avif|png|jpg|jpeg|gif|svg|css|js)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>

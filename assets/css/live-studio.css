@@ -1,0 +1,834 @@
+/* ==========================================================================
+   ZEYNART GÖRSEL STÜDYO — SİTE İÇİ CANLI SAYFA DÜZENLEYİCİ STİLLERİ
+   (Yalnızca yönetici oturumu açıkken yüklenir — ziyaretçilere 0 KB etki)
+   ========================================================================== */
+
+.zeynart-adminbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 42px;
+  z-index: 99990;
+  background: linear-gradient(90deg, rgba(6, 12, 16, 0.98), rgba(10, 20, 26, 0.98));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  font-size: 12.5px;
+  color: #dcebef;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.zeynart-adminbar-inner {
+  max-width: 1480px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.zeynart-adminbar-left,
+.zeynart-adminbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zeynart-adminbar-left {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.zeynart-adminbar-left::-webkit-scrollbar { display: none; }
+
+.zab-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+  color: #f4f9fb !important;
+  padding: 5px 10px 5px 4px;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+.zab-brand svg { color: #eab308; }
+.zab-brand:hover { color: #5eead4 !important; }
+
+.zab-edit-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 15px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #0b0f12 !important;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 0.16s ease, filter 0.16s ease, box-shadow 0.16s ease;
+  cursor: pointer;
+}
+.zab-edit-pill:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+}
+
+.zab-link {
+  color: #bfd2d9 !important;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 5px 9px;
+  border-radius: 7px;
+  transition: color 0.16s, background-color 0.16s;
+}
+.zab-link:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.zab-logout {
+  color: #cbd5e1 !important;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 7px;
+  transition: color 0.16s, background-color 0.16s;
+}
+.zab-logout:hover {
+  background: rgba(239, 68, 68, 0.16);
+  color: #fca5a5 !important;
+}
+
+body.has-zeynart-adminbar { padding-top: 42px !important; }
+body.has-zeynart-adminbar .site-header { top: 42px !important; }
+
+/* ==================== ACTIVE LIVE VISUAL STUDIO LAYOUT ==================== */
+body.zvs-editing .zeynart-adminbar { display: none !important; }
+body.zvs-editing {
+  padding-top: 48px !important;
+  padding-left: 364px !important;
+  transition: padding-left 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.zvs-editing .site-header {
+  top: 48px !important;
+  left: 364px !important;
+  transition: left 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.zvs-editing.zvs-dock-collapsed {
+  padding-left: 0 !important;
+}
+body.zvs-editing.zvs-dock-collapsed .site-header {
+  left: 0 !important;
+}
+
+/* Responsive Device Framing (Tablet / Mobile Preview inside Live Studio) */
+body.zvs-editing[data-zvs-device="tablet"] #main,
+body.zvs-editing[data-zvs-device="tablet"] footer.footer {
+  max-width: 768px;
+  margin-inline: auto;
+  border-inline: 1px solid rgba(94, 234, 212, 0.28);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.75);
+}
+body.zvs-editing[data-zvs-device="mobile"] #main,
+body.zvs-editing[data-zvs-device="mobile"] footer.footer {
+  max-width: 392px;
+  margin-inline: auto;
+  border-inline: 1px solid rgba(94, 234, 212, 0.34);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.82);
+}
+
+/* Studio Top Bar */
+.zvs-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  z-index: 99995;
+  background: #061015;
+  border-bottom: 1px solid rgba(94, 234, 212, 0.24);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  color: #e6f4f7;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+.zvs-topbar-left,
+.zvs-topbar-center,
+.zvs-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zvs-logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+}
+.zvs-logo-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2dd4bf, #f59e0b);
+  box-shadow: 0 0 10px rgba(45, 212, 191, 0.7);
+}
+.zvs-page-chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(45, 212, 191, 0.12);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  color: #5eead4;
+  font-size: 11px;
+  font-weight: 600;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zvs-device-group {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9px;
+  padding: 2px;
+  gap: 2px;
+}
+.zvs-device-btn {
+  border: 0;
+  background: transparent;
+  color: #9cb5bf;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.zvs-device-btn:hover { color: #fff; }
+.zvs-device-btn.active {
+  background: rgba(45, 212, 191, 0.2);
+  color: #5eead4;
+}
+
+.zvs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.05);
+  color: #dcebef;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.16s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.zvs-btn:hover {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(94, 234, 212, 0.35);
+  color: #fff;
+}
+.zvs-btn.zvs-btn-save,
+.zvs-btn-save {
+  background: linear-gradient(135deg, #0d9488 0%, #059669 52%, #0284c7 100%) !important;
+  border: 1px solid rgba(110, 231, 183, 0.58) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(2, 12, 16, 0.42);
+  font-weight: 700;
+  padding: 6px 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 4px 16px rgba(16, 185, 129, 0.34);
+}
+.zvs-btn.zvs-btn-save:hover,
+.zvs-btn.zvs-btn-save:focus-visible,
+.zvs-btn-save:hover,
+.zvs-btn-save:focus-visible {
+  background: linear-gradient(135deg, #14b8a6 0%, #10b981 52%, #0ea5e9 100%) !important;
+  border-color: rgba(167, 243, 208, 0.88) !important;
+  color: #ffffff !important;
+  filter: none;
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 6px 22px rgba(16, 185, 129, 0.48);
+}
+.zvs-btn.zvs-btn-save:active,
+.zvs-btn-save:active {
+  background: linear-gradient(135deg, #0f766e 0%, #047857 55%, #0369a1 100%) !important;
+  color: #ffffff !important;
+  transform: translateY(0);
+}
+.zvs-btn.zvs-btn-save:disabled,
+.zvs-btn-save:disabled {
+  background: linear-gradient(135deg, #0f766e 0%, #0369a1 100%) !important;
+  border-color: rgba(125, 211, 252, 0.48) !important;
+  color: #ffffff !important;
+  opacity: 0.92;
+  cursor: wait;
+  transform: none;
+}
+.zvs-btn.zvs-btn-save.is-dirty,
+.zvs-btn.zvs-btn-save.is-dirty:hover,
+.zvs-btn-save.is-dirty,
+.zvs-btn-save.is-dirty:hover {
+  background: linear-gradient(135deg, #d97706 0%, #059669 100%) !important;
+  border-color: rgba(253, 230, 138, 0.78) !important;
+  color: #ffffff !important;
+  animation: zvs-pulse 2s infinite;
+}
+.zvs-btn.zvs-btn-save.is-saved,
+.zvs-btn.zvs-btn-save.is-saved:hover,
+.zvs-btn-save.is-saved,
+.zvs-btn-save.is-saved:hover {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border-color: rgba(167, 243, 208, 0.92) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 0 0 3px rgba(16, 185, 129, 0.28), 0 6px 20px rgba(16, 185, 129, 0.45);
+}
+@keyframes zvs-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45); }
+  50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+}
+
+/* Studio Left Dock Sidebar */
+.zvs-dock {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  bottom: 0;
+  width: 364px;
+  z-index: 99994;
+  background: #071217;
+  border-right: 1px solid rgba(94, 234, 212, 0.22);
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  color: #dcebef;
+  box-shadow: 16px 0 44px rgba(0, 0, 0, 0.6);
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.zvs-editing.zvs-dock-collapsed .zvs-dock {
+  transform: translateX(-364px);
+}
+
+.zvs-collapse-handle {
+  position: absolute;
+  top: 50%;
+  right: -24px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 58px;
+  border-radius: 0 8px 8px 0;
+  background: #0b1c24;
+  border: 1px solid rgba(94, 234, 212, 0.28);
+  border-left: 0;
+  color: #5eead4;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.zvs-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  background: #050d11;
+}
+.zvs-tab {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #93aeb8;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 12px 6px;
+  cursor: pointer;
+  transition: all 0.16s;
+}
+.zvs-tab:hover { color: #e2f1f5; }
+.zvs-tab.active {
+  color: #5eead4;
+  border-bottom-color: #2dd4bf;
+  background: rgba(45, 212, 191, 0.06);
+}
+
+.zvs-dock-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.zvs-card {
+  background: rgba(11, 24, 31, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 12px;
+}
+.zvs-card h4 {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #f0f9fb;
+  letter-spacing: 0;
+}
+.zvs-hint {
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #8faab5;
+  margin: 0;
+}
+
+.zvs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.zvs-field:last-child { margin-bottom: 0; }
+.zvs-field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9db8c3;
+}
+.zvs-input,
+.zvs-select,
+.zvs-textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #040b0e;
+  color: #eef8fa;
+  font-size: 12.5px;
+  padding: 7px 10px;
+  outline: none;
+  font-family: inherit;
+}
+.zvs-input:focus,
+.zvs-select:focus,
+.zvs-textarea:focus {
+  border-color: #2dd4bf;
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.14);
+}
+.zvs-textarea {
+  min-height: 74px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Widget Grid in Left Dock */
+.zvs-widget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.zvs-widget-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 13, 17, 0.85);
+  color: #e6f4f7;
+  text-align: left;
+  cursor: grab;
+  transition: all 0.16s;
+}
+.zvs-widget-tile:hover {
+  border-color: #2dd4bf;
+  background: rgba(20, 184, 166, 0.11);
+  transform: translateY(-1px);
+}
+.zvs-widget-tile strong {
+  font-size: 12px;
+  color: #fff;
+}
+.zvs-widget-tile span {
+  font-size: 10.5px;
+  color: #88a4b0;
+  line-height: 1.35;
+}
+
+/* ==================== ON-CANVAS HOVER & SELECTION FRAMES ==================== */
+body.zvs-editing [data-zvs-hover="1"] {
+  outline: 1.5px dashed rgba(45, 212, 191, 0.85) !important;
+  outline-offset: 4px !important;
+  cursor: pointer;
+}
+body.zvs-editing [data-zvs-selected="1"] {
+  outline: 2px solid #f59e0b !important;
+  outline-offset: 5px !important;
+  background-color: rgba(245, 158, 11, 0.04);
+  border-radius: 4px;
+}
+body.zvs-editing [contenteditable="true"]:focus {
+  outline: 2px solid #2dd4bf !important;
+  outline-offset: 5px !important;
+}
+
+/* Floating Section Controls on Homepage & Builder Blocks */
+body.zvs-editing .zvs-home-sec-wrap,
+body.zvs-editing .zb-section {
+  position: relative;
+}
+body.zvs-editing .zvs-home-sec-wrap:hover,
+body.zvs-editing .zb-section:hover {
+  box-shadow: inset 0 0 0 1.5px rgba(45, 212, 191, 0.45);
+}
+
+.zvs-sec-bar {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(6, 15, 20, 0.94);
+  border: 1px solid rgba(94, 234, 212, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+}
+body.zvs-editing .zvs-home-sec-wrap:hover > .zvs-sec-bar,
+body.zvs-editing .zb-section:hover > .zvs-sec-bar,
+body.zvs-editing .zb-section.zvs-active-sec > .zvs-sec-bar {
+  opacity: 1;
+  pointer-events: auto;
+}
+.zvs-sec-bar-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #5eead4;
+  padding: 0 6px;
+}
+.zvs-sec-bar button {
+  border: 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e6f4f7;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.zvs-sec-bar button:hover {
+  background: #14b8a6;
+  color: #041317;
+}
+.zvs-sec-bar button.zvs-danger:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* Empty Dropzone Prompt when Visual Studio is open */
+body.zvs-editing .zb-canvas-empty {
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 30px 24px;
+  border-radius: 18px;
+  border: 2px dashed rgba(94, 234, 212, 0.35);
+  background: rgba(13, 30, 38, 0.45);
+  text-align: center;
+  color: #9ec4cf;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+body.zvs-editing .zb-canvas-empty::before {
+  content: "➕ Buraya Yeni Görsel Bölüm / Bileşen Eklemek İçin Tıklayın veya Sol Panelden Sürükleyin";
+  font-weight: 600;
+  color: #5eead4;
+}
+body.zvs-editing .zb-canvas-empty:hover,
+body.zvs-editing .zb-canvas.zvs-drag-over {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.09);
+}
+
+/* Toast & Media Picker Modal */
+.zvs-toast {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 99999;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: #071920;
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  color: #d1fae5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+}
+.zvs-toast.error {
+  border-color: rgba(248, 113, 113, 0.5);
+  color: #fee2e2;
+}
+
+.zvs-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  background: rgba(3, 8, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.zvs-modal {
+  width: min(780px, 96vw);
+  max-height: 84vh;
+  background: #08151b;
+  border: 1px solid rgba(94, 234, 212, 0.3);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  color: #e6f4f7;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.8);
+}
+.zvs-modal-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.zvs-modal-body {
+  padding: 16px 18px;
+  overflow-y: auto;
+}
+.zvs-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(126px, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.zvs-media-item {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #040a0d;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.zvs-media-item:hover {
+  border-color: #2dd4bf;
+  transform: translateY(-2px);
+}
+.zvs-media-item img {
+  width: 100%;
+  height: 92px;
+  object-fit: cover;
+  display: block;
+}
+.zvs-media-item span {
+  display: block;
+  padding: 5px 7px;
+  font-size: 10.5px;
+  color: #9cb5bf;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 920px) {
+  .zab-link { display: none; }
+  body.zvs-editing { padding-left: 0 !important; }
+  body.zvs-editing .site-header { left: 0 !important; }
+  .zvs-dock { width: min(340px, 88vw); }
+}
+
+/* ==================== LIVE STUDIO CLIENT LOGO MANAGER & DROPZONE ==================== */
+body.zvs-editing .client-logo-card {
+  position: relative;
+}
+body.zvs-editing .client-logo-card.zvs-active-client {
+  outline: 2px solid #2dd4bf !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.22);
+}
+.zvs-add-client-card {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 118px;
+  padding: 14px 12px !important;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(94, 234, 212, 0.55) !important;
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.14), rgba(8, 22, 29, 0.88)) !important;
+  color: #ecfeff !important;
+  cursor: pointer;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  transition: all 0.18s ease;
+}
+.zvs-add-client-card:hover {
+  border-color: #6ee7b7 !important;
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.26), rgba(13, 36, 46, 0.95)) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(16, 185, 129, 0.24);
+}
+.zvs-add-client-orb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #0ea5e9) !important;
+  color: #ffffff !important;
+  font-style: normal;
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1;
+  display: grid !important;
+  place-items: center;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.42);
+}
+.zvs-add-client-card strong {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #ffffff !important;
+  line-height: 1.25;
+}
+.zvs-add-client-card small {
+  display: block;
+  font-size: 10.5px;
+  color: #a7f3d0 !important;
+  line-height: 1.25;
+}
+.zvs-client-card-actions {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 9;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+body.zvs-editing .client-logo-card:hover .zvs-client-card-actions,
+body.zvs-editing .client-logo-card.zvs-active-client .zvs-client-card-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+.zvs-client-card-actions button {
+  padding: 3px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(5, 15, 20, 0.92);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.zvs-client-card-actions button:hover {
+  background: #0d9488;
+  border-color: #6ee7b7;
+}
+.zvs-client-card-actions button.zvs-cl-del:hover {
+  background: #dc2626;
+  border-color: #fca5a5;
+}
+.zvs-upload-dropzone {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1.5px dashed rgba(94, 234, 212, 0.48);
+  background: linear-gradient(145deg, rgba(20, 184, 166, 0.1), rgba(6, 16, 22, 0.85));
+  transition: all 0.16s ease;
+}
+.zvs-upload-dropzone.is-dragover {
+  border-color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.2);
+}
+.zvs-upload-progress {
+  margin-top: 10px;
+  height: 7px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: none;
+}
+.zvs-upload-progress.active {
+  display: block;
+}
+.zvs-upload-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #10b981, #38bdf8);
+  transition: width 0.12s ease;
+}
+.zvs-dock-client-list {
+  display: grid;
+  gap: 6px;
+  max-height: 290px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.zvs-dock-client-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  background: rgba(4, 11, 16, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.zvs-dock-client-row:hover,
+.zvs-dock-client-row.active {
+  border-color: #2dd4bf;
+  background: rgba(20, 184, 166, 0.14);
+}
+.zvs-dock-client-thumb {
+  width: 48px;
+  height: 30px;
+  border-radius: 6px;
+  background: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: 2px;
+}
+.zvs-dock-client-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
